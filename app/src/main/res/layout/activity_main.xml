@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <Button
+        android:id="@+id/btnStartService1InPlugin1"
+        android:layout_width="158dp"
+        android:layout_height="wrap_content"
+        android:onClick="startService1InPlugin1"
+        android:text="Create TestService1 in Plugin1" />
+
+    <Button
+        android:id="@+id/btnStopService1InPlugin1"
+        android:layout_width="158dp"
+        android:layout_height="wrap_content"
+        android:onClick="stopService1InPlugin1"
+        android:text="Stop TestService1 in Plugin1" />
+
+    <Button
+        android:id="@+id/btnBindService3InPlugin1"
+        android:layout_width="158dp"
+        android:layout_height="wrap_content"
+        android:onClick="bindService3InPlugin1"
+        android:text="Bind TestService3 in Plugin1" />
+
+    <Button
+        android:id="@+id/btnUnbindService3InPlugin1"
+        android:layout_width="158dp"
+        android:layout_height="wrap_content"
+        android:onClick="unbindService3InPlugin1"
+        android:text="Unbind TestService3 in Plugin1" />
+
+
+    <Button
+        android:id="@+id/btnStartService2InPlugin2"
+        android:layout_width="158dp"
+        android:layout_height="wrap_content"
+        android:onClick="startService2InPlugin2"
+        android:text="Create TestService2 in Plugin2" />
+
+    <Button
+        android:id="@+id/btnStopService2InPlugin2"
+        android:layout_width="158dp"
+        android:layout_height="wrap_content"
+        android:onClick="stopService2InPlugin2"
+        android:text="Stop TestService2 in Plugin2" />
+
+</LinearLayout>
