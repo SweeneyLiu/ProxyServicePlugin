@@ -45,6 +45,8 @@ public class ProxyService extends Service {
             mRemoteService = (IRemoteService) instance;
             mRemoteService.setProxy(this, mDexPath);
 
+            mRemoteService.onCreate();
+
             return mRemoteService.onStartCommand(intent, flags, startId);
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,7 +65,28 @@ public class ProxyService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         Log.d(TAG, TAG + " onBind");
-        return mRemoteService.onBind(intent);
+
+        mDexPath = intent.getStringExtra(AppConstants.EXTRA_DEX_PATH);
+        mClass = intent.getStringExtra(AppConstants.EXTRA_CLASS);
+
+        loadClassLoader();
+
+        try {
+            //反射出插件的Service对象
+            Class<?> localClass = dexClassLoader.loadClass(mClass);
+            Constructor<?> localConstructor = localClass.getConstructor(new Class[] {});
+            Object instance = localConstructor.newInstance(new Object[] {});
+
+            mRemoteService = (IRemoteService) instance;
+            mRemoteService.setProxy(this, mDexPath);
+
+            mRemoteService.onCreate();
+
+            return mRemoteService.onBind(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
