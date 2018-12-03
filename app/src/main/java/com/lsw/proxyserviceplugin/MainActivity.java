@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.lsw.pluginlibrary.AppConstants;
 import com.lsw.pluginlibrary.ITestServiceInterface;
+import com.lsw.pluginlibrary.ProxyServiceManager;
 
 import java.io.File;
 
@@ -39,7 +40,7 @@ public class MainActivity extends Activity {
 
         mConnection = new ServiceConnection() {
             public void onServiceConnected(ComponentName name, IBinder binder) {
-                int sum = ((ITestServiceInterface)binder).sum(5, 5);
+                int sum = ((ITestServiceInterface) binder).sum(5, 5);
                 Log.e("MainActivity", "onServiceConnected sum(5 + 5) = " + sum);
             }
 
@@ -50,30 +51,55 @@ public class MainActivity extends Activity {
     }
 
     public void startService1InPlugin1(View view) {
-        Intent intent = new Intent();
-        intent.setClass(this, ProxyService.class);
-        intent.putExtra(AppConstants.EXTRA_DEX_PATH, pluginItem1.pluginPath);
-        intent.putExtra(AppConstants.EXTRA_CLASS, pluginItem1.packageInfo.packageName + ".TestService1");
+        try {
+            Intent intent = new Intent();
 
-        startService(intent);
+            String serviceName = pluginItem1.packageInfo.packageName + ".TestService1";
+            String proxyServiceName = ProxyServiceManager.getInstance().getProxyServiceName(serviceName);
+            intent.setClass(this, Class.forName(proxyServiceName));
+
+            intent.putExtra(AppConstants.EXTRA_DEX_PATH, pluginItem1.pluginPath);
+            intent.putExtra(AppConstants.EXTRA_CLASS, serviceName);
+
+            startService(intent);
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void stopService1InPlugin1(View view) {
-        Intent intent = new Intent();
-        intent.setClass(this, ProxyService.class);
-        intent.putExtra(AppConstants.EXTRA_DEX_PATH, pluginItem1.pluginPath);
-        intent.putExtra(AppConstants.EXTRA_CLASS, pluginItem1.packageInfo.packageName + ".TestService1");
+        try {
+            Intent intent = new Intent();
 
-        stopService(intent);
+            String serviceName = pluginItem1.packageInfo.packageName + ".TestService1";
+            String proxyServiceName = ProxyServiceManager.getInstance().getProxyServiceName(serviceName);
+            intent.setClass(this, Class.forName(proxyServiceName));
+
+            intent.putExtra(AppConstants.EXTRA_DEX_PATH, pluginItem1.pluginPath);
+            intent.putExtra(AppConstants.EXTRA_CLASS, serviceName);
+
+            stopService(intent);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void bindService3InPlugin1(View view) {
-        Intent intent = new Intent();
-        intent.setClass(this, ProxyService.class);
-        intent.putExtra(AppConstants.EXTRA_DEX_PATH, pluginItem1.pluginPath);
-        intent.putExtra(AppConstants.EXTRA_CLASS, pluginItem1.packageInfo.packageName + ".TestService3");
+        try {
+            Intent intent = new Intent();
 
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+            String serviceName = pluginItem1.packageInfo.packageName + ".TestService3";
+            String proxyServiceName = ProxyServiceManager.getInstance().getProxyServiceName(serviceName);
+            intent.setClass(this, Class.forName(proxyServiceName));
+
+            intent.putExtra(AppConstants.EXTRA_DEX_PATH, pluginItem1.pluginPath);
+            intent.putExtra(AppConstants.EXTRA_CLASS, serviceName);
+
+            bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void unbindService3InPlugin1(View view) {
@@ -81,21 +107,37 @@ public class MainActivity extends Activity {
     }
 
     public void startService2InPlugin2(View view) {
-        Intent intent = new Intent();
-        intent.setClass(this, ProxyService.class);
-        intent.putExtra(AppConstants.EXTRA_DEX_PATH, pluginItem2.pluginPath);
-        intent.putExtra(AppConstants.EXTRA_CLASS, pluginItem2.packageInfo.packageName + ".TestService2");
+        try {
+            Intent intent = new Intent();
 
-        startService(intent);
+            String serviceName = pluginItem2.packageInfo.packageName + ".TestService2";
+            String proxyServiceName = ProxyServiceManager.getInstance().getProxyServiceName(serviceName);
+            intent.setClass(this, Class.forName(proxyServiceName));
+
+            intent.putExtra(AppConstants.EXTRA_DEX_PATH, pluginItem2.pluginPath);
+            intent.putExtra(AppConstants.EXTRA_CLASS, serviceName);
+
+            startService(intent);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void stopService2InPlugin2(View view) {
-        Intent intent = new Intent();
-        intent.setClass(this, ProxyService.class);
-        intent.putExtra(AppConstants.EXTRA_DEX_PATH, pluginItem2.pluginPath);
-        intent.putExtra(AppConstants.EXTRA_CLASS, pluginItem2.packageInfo.packageName + ".TestService2");
+        try {
+            Intent intent = new Intent();
 
-        stopService(intent);
+            String serviceName = pluginItem2.packageInfo.packageName + ".TestService2";
+            String proxyServiceName = ProxyServiceManager.getInstance().getProxyServiceName(serviceName);
+            intent.setClass(this, Class.forName(proxyServiceName));
+
+            intent.putExtra(AppConstants.EXTRA_DEX_PATH, pluginItem2.pluginPath);
+            intent.putExtra(AppConstants.EXTRA_CLASS, serviceName);
+
+            stopService(intent);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private PluginItem generatePluginItem(String apkName) {
